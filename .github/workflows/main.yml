@@ -2,8 +2,8 @@ name: Publication Article Hebdomadaire
 
 on:
   schedule:
-    # Exécution 1 fois par semaine : tous les lundis à 7h00 UTC (8h00 heure de Paris en hiver)
-    - cron: '0 8 * * 1'  # Lundi
+# Exécution 1 fois par mois : le premier mardi à 7h00 UTC (8h00 heure de Paris en hiver)
+- cron: '0 7 1-7 * 2'  # Premier mardi du mois
   
   # Permet aussi de lancer manuellement depuis l'interface GitHub
   workflow_dispatch:
