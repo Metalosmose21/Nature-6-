@@ -1,11 +1,10 @@
-name: Publication Article Hebdomadaire
+name: Publication Article Bi-hebdomadaire
 
 on:
   schedule:
-# Exécution 1 fois par mois : le premier mardi à 7h00 UTC (8h00 heure de Paris en hiver)
-- cron: '0 7 1-7 * 2'  # Premier mardi du mois
+    # Exécution 1 fois par mois : le premier mardi à 7h00 UTC
+    - cron: '0 7 1-7 * 2'
   
-  # Permet aussi de lancer manuellement depuis l'interface GitHub
   workflow_dispatch:
 
 permissions:
@@ -57,20 +56,16 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions Bot"
           
-          # Pull les derniers changements
           git pull --rebase origin main || true
           
-          # Ajouter les fichiers modifiés
           git add sujets.csv
           if [ -f "sujets_traites.csv" ]; then
             git add sujets_traites.csv
           fi
           
-          # Vérifier s'il y a des changements
           if ! git diff --staged --quiet; then
             git commit -m "🤖 Article publié automatiquement - $(date +'%Y-%m-%d %H:%M')"
             
-            # Réessayer le push jusqu'à 5 fois
             for i in {1..5}; do
               if git push; then
                 echo "✅ Modifications sauvegardées"
